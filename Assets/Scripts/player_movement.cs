@@ -27,13 +27,15 @@ public class player_movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ----- Handles Horizontal Movement Input -----
         if(Input.GetKey(KeyCode.D)){
             horizontalVelocity += (acceleration * Time.deltaTime);
         }
         else if(Input.GetKey(KeyCode.A)){
             horizontalVelocity -= (acceleration * Time.deltaTime);
         }
-        else{
+            // If not moving, decellerate
+        else{   
             if(horizontalVelocity > 0){
                 horizontalVelocity -= (acceleration * Time.deltaTime);
             }
@@ -45,42 +47,55 @@ public class player_movement : MonoBehaviour
             }
         }
 
+            // Protects the player from going faster than maxVelocity
         if(horizontalVelocity > maxVelocity){
             horizontalVelocity -= (acceleration * Time.deltaTime);
         }
         else if(horizontalVelocity < -maxVelocity){
             horizontalVelocity += (acceleration * Time.deltaTime);
         }
+        // -----
 
-
-
+        // ----- Handles wheather the player can jump, and jump input. -----
+            // Reset verticalVelocity when you reach the ground.
         if(onGround){
             verticalVelocity = 0;
         }
+            // Simulates gravity for player object.
         else{
             verticalVelocity -= 2 * (acceleration * Time.deltaTime);
         }
+
+            // Does the action of Jumping
         if(Input.GetKey(KeyCode.Space) && onGround){
             Debug.Log("Jump");
             verticalVelocity = maxVelocity * 2;
         }
+        // ----- 
 
+        // ----- Applies the changes to posistion -----
         transform.position += (Vector3.right * horizontalVelocity * Time.deltaTime);
         transform.position += (Vector3.up * verticalVelocity * Time.deltaTime);
+        // -----
 
         // Debug.Log(gameObject.transform.position);
     }
 
     private void OnCollisionEnter2D(Collision2D coll){
+
+        // ----- Checks Every collided object to see if any are below and therefore "ground" -----
         foreach(ContactPoint2D hit in coll.contacts){
             if(hit.point.y < transform.position.y){
                 onGround = true;
                 // Debug.Log("onGround set to true");
             }
         }
+        // -----
     }
 
     private void OnCollisionExit2D(Collision2D coll){
+        
+        // ----- onGround sets to false if no longer colliding with object below player -----
         onGround = false;
         foreach(ContactPoint2D hit in coll.contacts){
             if(hit.point.y < transform.position.y){
@@ -88,5 +103,6 @@ public class player_movement : MonoBehaviour
                 // Debug.Log("onGround set to false");
             }
         }
+        // -----
     }    
 }
