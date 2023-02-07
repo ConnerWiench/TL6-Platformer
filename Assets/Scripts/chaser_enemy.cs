@@ -8,7 +8,10 @@ public class chaser_enemy : MonoBehaviour
     public float damage;
 
     private float followDistance;
+
+    [SerializeField]
     private float maxVelocity;
+
     private float currentVelocity;
     private float acceleration;
 
@@ -19,8 +22,7 @@ public class chaser_enemy : MonoBehaviour
     {
         damage = 1;
 
-        followDistance = 5;
-        maxVelocity = 3;
+        followDistance = 10;
         currentVelocity = 0;
         acceleration = 5;
 

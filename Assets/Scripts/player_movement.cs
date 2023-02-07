@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class player_movement : MonoBehaviour
 {
+    [SerializeField]
     private float maxVelocity;
+    
     private float horizontalVelocity;
     private float verticalVelocity;
     private float acceleration;
@@ -15,7 +17,6 @@ public class player_movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxVelocity = 5;
         acceleration = 10;
 
         horizontalVelocity = 0;
