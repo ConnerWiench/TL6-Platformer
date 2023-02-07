@@ -6,6 +6,9 @@ using UnityEngine;
 public class player_movement : MonoBehaviour
 {
     [SerializeField]
+    HealthBar healthBar;
+
+    [SerializeField]
     private float maxVelocity;
     
     private float horizontalVelocity;
@@ -80,6 +83,9 @@ public class player_movement : MonoBehaviour
         // -----
 
         // Debug.Log(gameObject.transform.position);
+        if(transform.position.y <= -7){
+            healthBar.Death();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D coll){

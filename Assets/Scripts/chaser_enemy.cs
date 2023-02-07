@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class chaser_enemy : MonoBehaviour
 {
+    [SerializeField]
+    HealthBar healthBar;
+        
+    private int health = 3;
     public float damage;
 
     private float followDistance;
@@ -82,6 +86,12 @@ public class chaser_enemy : MonoBehaviour
         // ----- Detects if Enemy has hit player -----
         if(hit.gameObject.tag == "Player"){
             Debug.Log("Hit Player");
+            health = health - 1;
+            if(health <= 0){
+                healthBar.SetHealth(0);
+            }else{
+                healthBar.SetHealth(health);
+            }
             // Destroy(gameObject);
         }
         // -----
