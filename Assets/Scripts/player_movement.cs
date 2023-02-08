@@ -61,25 +61,21 @@ public class player_movement : MonoBehaviour
         // -----
 
         // ----- Handles wheather the player can jump, and jump input. -----
-            // Reset verticalVelocity when you reach the ground.
-        if(onGround){
-            verticalVelocity = 0;
-        }
             // Simulates gravity for player object.
-        else{
+        if(!onGround){
             verticalVelocity -= 2 * (acceleration * Time.deltaTime);
         }
 
             // Does the action of Jumping
         if(Input.GetKey(KeyCode.Space) && onGround){
-            Debug.Log("Jump");
+            // Debug.Log("Jump");
             verticalVelocity = maxVelocity * 2;
         }
         // ----- 
 
         // ----- Applies the changes to posistion -----
-        transform.position += (Vector3.right * horizontalVelocity * Time.deltaTime);
-        transform.position += (Vector3.up * verticalVelocity * Time.deltaTime);
+        transform.Translate(Vector3.right * horizontalVelocity * Time.deltaTime);
+        transform.Translate(Vector3.up * verticalVelocity * Time.deltaTime);
         // -----
 
         // Debug.Log(gameObject.transform.position);
@@ -94,7 +90,19 @@ public class player_movement : MonoBehaviour
         foreach(ContactPoint2D hit in coll.contacts){
             if(hit.point.y < transform.position.y){
                 onGround = true;
+                if(verticalVelocity < 0){
+                    verticalVelocity = 0;
+                }
                 // Debug.Log("onGround set to true");
+            }
+            else if((hit.point.y > transform.position.y) && (verticalVelocity > 0)){
+                verticalVelocity = 0;
+            }
+            else if((hit.point.x > transform.position.x) && (horizontalVelocity > 0)){
+                horizontalVelocity = 0;
+            }
+            else if((hit.point.x < transform.position.x) && (horizontalVelocity < 0)){
+                horizontalVelocity = 0;
             }
         }
         // -----
