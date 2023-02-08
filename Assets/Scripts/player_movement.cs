@@ -7,6 +7,7 @@ public class player_movement : MonoBehaviour
 {
     [SerializeField]
     HealthBar healthBar;
+    private GameManager gm;
 
     [SerializeField]
     private float maxVelocity;
@@ -20,6 +21,10 @@ public class player_movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(gm == null){
+            gm = GameManager.Instance;
+        }
+
         acceleration = 10;
 
         horizontalVelocity = 0;
@@ -80,7 +85,7 @@ public class player_movement : MonoBehaviour
 
         // Debug.Log(gameObject.transform.position);
         if(transform.position.y <= -7){
-            healthBar.Death();
+            gm.game_over();
         }
     }
 

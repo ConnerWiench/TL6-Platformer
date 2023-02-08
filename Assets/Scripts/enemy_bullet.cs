@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class enemy_bullet : MonoBehaviour
 {
+    private GameManager gm;
+
     private float maxVelocity;
     private float timeCreated;
 
@@ -11,6 +13,9 @@ public class enemy_bullet : MonoBehaviour
 
     void Start()
     {
+        if(gm == null){
+            gm = GameManager.Instance;
+        }
         target = GameObject.FindGameObjectsWithTag("Player")[0];
 
         maxVelocity = 5;
@@ -29,9 +34,12 @@ public class enemy_bullet : MonoBehaviour
 
     // When the bullet hits any non-enemy object
     private void OnTriggerEnter2D(Collider2D other) {
-        // Debug.Log("Trigger Active");
         if(!other.CompareTag("Enemy")){
             Destroy(gameObject);
+            if(other.CompareTag("Player")){
+                gm.take_damage();
+            }
         }
+
     }
 }

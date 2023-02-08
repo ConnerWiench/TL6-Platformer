@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class shooter_enemy : MonoBehaviour
 {
+    public HealthBar hb;
     public GameObject bullet;
 
     [SerializeField]

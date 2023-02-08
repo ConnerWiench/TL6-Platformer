@@ -7,9 +7,9 @@ public class chaser_enemy : MonoBehaviour
 {
     [SerializeField]
     HealthBar healthBar;
-        
+    private GameManager gm;
+
     private int health = 3;
-    public float damage;
 
     private float followDistance;
 
@@ -24,7 +24,9 @@ public class chaser_enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        damage = 1;
+        if(gm == null){
+            gm = GameManager.Instance;
+        }
 
         followDistance = 10;
         currentVelocity = 0;
@@ -86,12 +88,7 @@ public class chaser_enemy : MonoBehaviour
         // ----- Detects if Enemy has hit player -----
         if(hit.gameObject.tag == "Player"){
             Debug.Log("Hit Player");
-            health = health - 1;
-            if(health <= 0){
-                healthBar.SetHealth(0);
-            }else{
-                healthBar.SetHealth(health);
-            }
+            gm.take_damage();
             // Destroy(gameObject);
         }
         // -----
