@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager: MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class GameManager: MonoBehaviour
     }
 
     public void game_over(){
-        Time.timeScale = 0;
+        SceneManager.LoadScene(3);
+        // Time.timeScale = 0;
         //trigger the game over screen...
     }
 
