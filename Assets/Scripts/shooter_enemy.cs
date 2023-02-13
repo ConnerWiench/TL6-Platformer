@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class shooter_enemy : MonoBehaviour
 {
-    public HealthBar hb;
     public GameObject bullet;
 
     [SerializeField]
     private float shootDistance;
     [SerializeField]
     private float shootSpeed;
-    private float damage;
 
     private float targetAngle;
     private GameObject target;
@@ -21,8 +19,6 @@ public class shooter_enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        damage = 1;
-        shootDistance = 8;
         timeSinceShot = 0;
 
         target = GameObject.FindGameObjectsWithTag("Player")[0];
@@ -38,13 +34,13 @@ public class shooter_enemy : MonoBehaviour
             float y = target.transform.position.y - transform.position.y;
             float x = target.transform.position.x - transform.position.x;
             targetAngle = Mathf.Atan2(y, x);
-            targetAngle = (targetAngle * Mathf.Rad2Deg);
+            targetAngle = (targetAngle * Mathf.Rad2Deg) - 90;
             transform.rotation = Quaternion.AngleAxis(targetAngle, Vector3.forward);
             
             // Controls what happens when shooting and how often.
             if(Time.time >= (shootSpeed + timeSinceShot)){
                 // Debug.Log("Fire");
-                GameObject clone = Instantiate(bullet, transform.position, Quaternion.AngleAxis(targetAngle - 90, Vector3.forward));
+                GameObject clone = Instantiate(bullet, transform.position, Quaternion.AngleAxis(targetAngle, Vector3.forward));
 
                 timeSinceShot = Time.time;
             }

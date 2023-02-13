@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class chaser_enemy : MonoBehaviour
 {
-    [SerializeField]
-    HealthBar healthBar;
     private GameManager gm;
-
-    private int health = 3;
 
     private float followDistance;
 
@@ -72,7 +68,8 @@ public class chaser_enemy : MonoBehaviour
 
         // Applies movement change
         transform.position += (Vector3.right * currentVelocity * Time.deltaTime);
-
+        // transform.rotation = transform.rotation.zAngle + Quaternion.AngleAxis((6.28f * currentVelocity), Vector3.forward);
+        transform.Rotate(0, 0, (-6.28f * currentVelocity), Space.Self);
     }
 
     // Checks to horizontal distance between Enemy and Player so enemy only follows when in range.
