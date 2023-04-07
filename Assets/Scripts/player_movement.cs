@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class player_movement : MonoBehaviour
 {
@@ -15,6 +16,13 @@ public class player_movement : MonoBehaviour
 
     [SerializeField]
     private float maxVelocity;
+
+    [SerializeField]
+    private Button left;
+    [SerializeField]
+    private Button right;
+    [SerializeField]
+    private Button jump;
     
     private float horizontalVelocity;
     private float verticalVelocity;
@@ -32,8 +40,14 @@ public class player_movement : MonoBehaviour
         if(gm == null){
             gm = GameManager.Instance;
         }
-
-        acceleration = 10;
+        
+        left.onClick.AddListener(() => OnLeftButtonClick());
+        right.onClick.AddListener(() => OnRightButtonClick());
+        jump.onClick.AddListener(() => OnJumpButtonClick());
+        //right = GameObject.Find("MoveRight");
+        //jump = GameObject.Find("JumpButton");
+        
+        acceleration = 50;
 
         horizontalVelocity = 0;
         verticalVelocity = 0;
@@ -42,16 +56,21 @@ public class player_movement : MonoBehaviour
     }
 
 
-    private void Jump(){    // jump animation 
-            verticalVelocity = maxVelocity * 2;
+    private void OnJumpButtonClick(){    // jump animation 
+            verticalVelocity = maxVelocity * 5;
             Grounded = false;
+    }
+
+    private void OnLeftButtonClick(){
+        horizontalVelocity -= (acceleration * Time.deltaTime);
+    }
+
+    private void OnRightButtonClick(){
+        horizontalVelocity += (acceleration * Time.deltaTime);
     }
 
     // Update is called once per frame
     void Update() {
-
-
-    
         anim.SetBool("Ground", Grounded);
         anim.SetBool("run", horizontalVelocity != 0);
 
@@ -64,12 +83,7 @@ public class player_movement : MonoBehaviour
         }
 
         // ----- Handles Horizontal Movement Input -----
-        if(Input.GetKey(KeyCode.D)){
-            horizontalVelocity += (acceleration * Time.deltaTime);
-        }
-        else if(Input.GetKey(KeyCode.A)){
-            horizontalVelocity -= (acceleration * Time.deltaTime);
-        }
+        
             // If not moving, decellerate
         else{   
             if(horizontalVelocity > 0){
@@ -103,7 +117,7 @@ public class player_movement : MonoBehaviour
             // Does the action of Jumping
         if(Input.GetKey(KeyCode.Space) && onGround){
             // Debug.Log("Jump");
-            Jump();
+            //Jump();
         }
         // ----- 
 
